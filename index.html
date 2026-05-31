@@ -8,9 +8,9 @@
     <style>
         /* SIFIRLAMA VE TAM EKRAN ZORLAMASI */
         html, body { 
-            margin: 0 !important; 
-            padding: 0 !important; 
-            width: 100% !important; 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
             font-family: 'Arial', sans-serif; 
             background: #1a1a1a; 
             color: white; 
@@ -18,18 +18,63 @@
         }
         ::-webkit-scrollbar { width: 0px; background: transparent; }
         
-        /* DİL SEÇİCİ */
+        /* GERÇEK ÜST MENÜ BAR (NAVBAR) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: #161616;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-sizing: border-box;
+            z-index: 999999;
+            border-bottom: 1px solid #2d2d2d;
+        }
+        .nav-logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .nav-links a {
+            color: #b3b3b3;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: white;
+        }
+
+        /* DİL SEÇİCİ (MENÜNÜN İÇİNE ENTEGRE EDİLDİ) */
         .lang-selector { 
-            position: fixed; top: 20px; right: 20px; z-index: 99999; 
-            background: #cc0000; padding: 8px 15px; border-radius: 6px; 
-            color: white; font-weight: bold; display: flex; gap: 10px;
-            border: 2px solid #fff; cursor: pointer; box-shadow: 0 4px 15px rgba(204, 0, 0, 0.5);
+            background: #cc0000; 
+            padding: 6px 12px; 
+            border-radius: 4px; 
+            color: white; 
+            font-weight: bold; 
+            display: flex; 
+            gap: 8px;
+            border: 1px solid #fff; 
+            cursor: pointer; 
+            font-size: 13px;
         }
         .lang-selector span { cursor: pointer; transition: 0.3s; opacity: 0.5; }
-        .lang-selector span.active { opacity: 1; text-shadow: 0 0 10px #fff; transform: scale(1.1); }
-        .divider { border-left: 2px solid #000; height: 18px; }
+        .lang-selector span.active { opacity: 1; text-shadow: 0 0 5px #fff; }
+        .divider { border-left: 1px solid #000; height: 14px; align-self: center; }
 
-        /* BUTONLAR VE DİĞERLERİ */
+        /* BUTONLAR VE HERO ALANI */
         .join-btn { 
             margin-top: 20px; background: #cc0000; color: white; padding: 18px 50px; 
             border: 2px solid #ff3333; border-radius: 4px; font-weight: 900; font-size: 18px;
@@ -38,28 +83,24 @@
         }
         .join-btn:hover { background: #fff; color: #cc0000; border-color: #fff; box-shadow: 0 0 35px rgba(255,255,255,0.8); transform: scale(1.05); }
         
-        /* TAM EKRAN HERO BÖLÜMÜ */
+        /* KOD MENÜDEN SONRA BAŞLASIN DİYE TOP PAYING VERİLDİ */
         .hero-section { 
             position: relative; 
-            width: 100vw !important; 
-            height: 100vh; 
+            width: 100%; 
+            height: calc(100vh - 70px); 
+            margin-top: 70px;
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
             text-align: center; 
             border-bottom: 5px solid #cc0000;
-            margin: 0 !important;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw !important;
-            margin-right: -50vw !important;
         }
         .hero-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
         .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2; }
         .hero-content { position: relative; z-index: 3; }
         
-        .cookie-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100000; justify-content: center; align-items: center; }
+        .cookie-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000000; justify-content: center; align-items: center; }
         .cookie-content { background: #222; border: 2px solid #cc0000; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; text-align: center; }
         .modal-btn { background: #cc0000; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-top: 15px; }
         
@@ -73,20 +114,23 @@
 </head>
 <body>
 
-    <div class="lang-selector">
-        <span id="btn-tr" class="active" onclick="setLanguage('tr')">TR</span>
-        <div class="divider"></div>
-        <span id="btn-en" onclick="setLanguage('en')">ENG</span>
-    </div>
-
-    <div id="cookieModal" class="cookie-modal">
-        <div class="cookie-content">
-            <h3 id="modalTitle">YASAL ONAY</h3>
-            <p id="modalText">Başvurmadan önce <a href="https://sites.google.com/view/sayginlartransport59/%C3%A7erez-politikas%C4%B1" target="_blank" style="color:#cc0000;">Gizlilik ve Çerez Politikası</a>'nı okuyup onaylamanız gerekir.</p>
-            <button class="modal-btn" onclick="acceptAndRedirect()">Onaylıyorum</button>
-            <button class="modal-btn" style="background:#444;" onclick="closeModal()">Vazgeç</button>
+    <nav class="navbar">
+        <a href="#" class="nav-logo">Saygınlar Transport</a>
+        <div class="nav-links">
+            <a href="#" class="active" id="link-home">Ana Sayfa</a>
+            <a href="https://sites.google.com/view/sayginlartransport59/management">Management</a>
+            <a href="https://sites.google.com/view/sayginlartransport59/gallery">Gallery</a>
+            <a href="https://sites.google.com/view/sayginlartransport59/partnership">Partnership</a>
+            <a href="https://sites.google.com/view/sayginlartransport59/%C3%A7erez-politikas%C4%B1" id="link-cookies">Çerez Politikası</a>
+            <a href="https://sites.google.com/view/sayginlartransport59/management-panel">Management Panel</a>
+            
+            <div class="lang-selector">
+                <span id="btn-tr" class="active" onclick="setLanguage('tr')">TR</span>
+                <div class="divider"></div>
+                <span id="btn-en" onclick="setLanguage('en')">ENG</span>
+            </div>
         </div>
-    </div>
+    </nav>
 
     <div id="content-tr">
         <section class="hero-section">
@@ -138,16 +182,31 @@
         </section>
     </div>
 
+    <div id="cookieModal" class="cookie-modal">
+        <div class="cookie-content">
+            <h3 id="modalTitle">YASAL ONAY</h3>
+            <p id="modalText">Başvurmadan önce <a href="https://sites.google.com/view/sayginlartransport59/%C3%A7erez-politikas%C4%B1" target="_blank" style="color:#cc0000;">Gizlilik ve Çerez Politikası</a>'nı okuyup onaylamanız gerekir.</p>
+            <button class="modal-btn" onclick="acceptAndRedirect()">Onaylıyorum</button>
+            <button class="modal-btn" style="background:#444;" onclick="closeModal()">Vazgeç</button>
+        </div>
+    </div>
+
     <script>
         function setLanguage(lang) {
             document.getElementById('content-tr').style.display = (lang === 'tr') ? 'block' : 'none';
             document.getElementById('content-en').style.display = (lang === 'en') ? 'block' : 'none';
             document.getElementById('btn-tr').classList.toggle('active', lang === 'tr');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            
+            // Menü isimlerini dile göre dinamik çevirir
             if(lang === 'en') {
+                document.getElementById('link-home').innerHTML = "Home";
+                document.getElementById('link-cookies').innerHTML = "Cookie Policy";
                 document.getElementById('modalTitle').innerHTML = "LEGAL APPROVAL";
                 document.getElementById('modalText').innerHTML = 'Before applying, you must read and accept our <a href="https://sites.google.com/view/sayginlartransport59/%C3%A7erez-politikas%C4%B1" target="_blank" style="color:#cc0000;">Privacy and Cookie Policy</a>.';
             } else {
+                document.getElementById('link-home').innerHTML = "Ana Sayfa";
+                document.getElementById('link-cookies').innerHTML = "Çerez Politikası";
                 document.getElementById('modalTitle').innerHTML = "YASAL ONAY";
                 document.getElementById('modalText').innerHTML = 'Başvurmadan önce <a href="https://sites.google.com/view/sayginlartransport59/%C3%A7erez-politikas%C4%B1" target="_blank" style="color:#cc0000;">Gizlilik ve Çerez Politikası</a>\'nı okuyup onaylamanız gerekir.';
             }
